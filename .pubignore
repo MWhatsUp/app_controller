@@ -27,10 +27,3 @@ migrate_working_dir/
 **/doc/api/
 .dart_tool/
 build/
-
-lib/snackbar.dart
-lib/nav.dart
-lib/focus.dart
-lib/dialog.dart
-lib/state/state.dart
-test/app_controller_test.dart
