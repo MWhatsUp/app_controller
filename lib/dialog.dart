@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'state/state.dart' as state;
 
 void show({
+  BuildContext? context,
   required WidgetBuilder builder,
   bool barrierDismissible = true,
   Color? barrierColor,
@@ -12,14 +13,19 @@ void show({
   Offset? anchorPoint,
   TraversalEdgeBehavior? traversalEdgeBehavior,
 }) {
-  var context = state.appContext;
+  if (context == null && (!state.isContextLoaded || !state.appContext.mounted)) {
+    assert(false,
+    "App Context was not loaded or not mounted");
 
-  assert(context.mounted,
-  "BuildContext was used even though it was not mounted");
-
-  if (!context.mounted) {
     return;
   }
+  if (context != null && !context.mounted) {
+    assert(false,
+    "Provided Context was not loaded or not mounted");
+
+    return;
+  }
+  context = context?? state.appContext;
 
   showDialog(
     context: context,
@@ -36,6 +42,7 @@ void show({
 }
 
 void showAlert({
+  BuildContext? context,
   String? title,
   required Widget content,
   List<Widget>? actions,
@@ -47,14 +54,19 @@ void showAlert({
   Color? backgroundColor,
   double? titleBorderSize,
 }) {
-  var context = state.appContext;
+  if (context == null && (!state.isContextLoaded || !state.appContext.mounted)) {
+    assert(false,
+    "App Context was not loaded or not mounted");
 
-  assert(context.mounted,
-  "BuildContext was used even though it was not mounted");
-
-  if (!context.mounted) {
     return;
   }
+  if (context != null && !context.mounted) {
+    assert(false,
+    "Provided Context was not loaded or not mounted");
+
+    return;
+  }
+  context = context?? state.appContext;
 
   Widget? titleWidget;
 
@@ -98,20 +110,26 @@ void showAlert({
 }
 
 void showConfirmation({
+  BuildContext? context,
   required String title,
   required String text,
   required void Function() onConfirmPressed,
   String cancelButtonText = "Cancel",
   String confirmButtonText = "Confirm",
 }) {
-  var context = state.appContext;
+  if (context == null && (!state.isContextLoaded || !state.appContext.mounted)) {
+    assert(false,
+    "App Context was not loaded or not mounted");
 
-  assert(context.mounted,
-  "BuildContext was used even though it was not mounted");
-
-  if (!context.mounted) {
     return;
   }
+  if (context != null && !context.mounted) {
+    assert(false,
+    "Provided Context was not loaded or not mounted");
+
+    return;
+  }
+  context = context?? state.appContext;
 
   showDialog(
     context: context,

@@ -4,14 +4,20 @@ import 'state/state.dart' as state;
 String previousText = "";
 DateTime previousMessageTimeStamp = DateTime.now();
 
-void display({String? text}) {
-  if (!state.isContextLoaded || !state.appContext.mounted) {
+void display({BuildContext? context, String? text}) {
+  if (context == null && (!state.isContextLoaded || !state.appContext.mounted)) {
     assert(false,
-    "BuildContext was used even though it was not loaded or not mounted");
+    "App Context was not loaded or not mounted");
 
     return;
   }
-  var context = state.appContext;
+  if (context != null && !context.mounted) {
+    assert(false,
+    "Provided Context was not loaded or not mounted");
+
+    return;
+  }
+  context = context?? state.appContext;
 
   assert(text == null || text.length <= 200,
   "Message to display can not be longer than 200 characters");

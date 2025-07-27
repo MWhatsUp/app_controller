@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import 'state/state.dart' as app_state;
+import 'state/state.dart' as state;
 
 Future<void> refreshApp({bool forceRedraw = false}) async {
-  if (!app_state.appContext.mounted) {
-    assert(false, "App Context was not mounted");
+  if (!state.isContextLoaded || !state.appContext.mounted) {
+    assert(false,
+    "App Context was not loaded or not mounted");
+
     return;
   }
 
@@ -13,21 +15,21 @@ Future<void> refreshApp({bool forceRedraw = false}) async {
   if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
     await SchedulerBinding.instance.endOfFrame;
 
-    if (!app_state.appContext.mounted) {
+    if (!state.appContext.mounted) {
       assert(false, "App Context was not mounted");
       return;
     }
   }
 
   if (forceRedraw) {
-    app_state.keyValue = app_state.keyValue == 0? 1 : 0;
+    state.keyValue = state.keyValue == 0? 1 : 0;
   }
-  app_state.appRefreshFn(() {});
+  state.appRefreshFn(() {});
 }
 
 void openPage(Widget page, {bool forceRedraw = false})
 {
-  app_state.currentPage = page;
+  state.currentPage = page;
   refreshApp(forceRedraw: forceRedraw);
 }
 
@@ -39,12 +41,19 @@ void openSubPage(Widget page,
       void Function(dynamic result)? onPageClosed,
     })
 {
-  context = context?? app_state.appContext;
+  if (context == null && (!state.isContextLoaded || !state.appContext.mounted)) {
+    assert(false,
+    "App Context was not loaded or not mounted");
 
-  if (!context.mounted) {
-    assert(false, "Context was not mounted");
     return;
   }
+  if (context != null && !context.mounted) {
+    assert(false,
+    "Provided Context was not loaded or not mounted");
+
+    return;
+  }
+  context = context?? state.appContext;
 
   Navigator.push(
     context,
@@ -67,23 +76,37 @@ void openSubPage(Widget page,
 }
 
 void closeSubPage({BuildContext? context}) {
-  context = context?? app_state.appContext;
-  
-  if (!context.mounted) {
-    assert(false, "Context was not mounted");
+  if (context == null && (!state.isContextLoaded || !state.appContext.mounted)) {
+    assert(false,
+    "App Context was not loaded or not mounted");
+
     return;
   }
+  if (context != null && !context.mounted) {
+    assert(false,
+    "Provided Context was not loaded or not mounted");
 
-  Navigator.of(app_state.appContext).pop();
+    return;
+  }
+  context = context?? state.appContext;
+
+  Navigator.of(context).pop();
 }
 
 void closeAllSubPages({BuildContext? context}) {
-  context = context?? app_state.appContext;
+  if (context == null && (!state.isContextLoaded || !state.appContext.mounted)) {
+    assert(false,
+    "App Context was not loaded or not mounted");
 
-  if (!context.mounted) {
-    assert(false, "Context was not mounted");
     return;
   }
+  if (context != null && !context.mounted) {
+    assert(false,
+    "Provided Context was not loaded or not mounted");
+
+    return;
+  }
+  context = context?? state.appContext;
 
   Navigator.of(context).popUntil((route) => route.isFirst);
 }

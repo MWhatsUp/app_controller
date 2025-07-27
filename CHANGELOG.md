@@ -5,3 +5,8 @@ The initial release provides some working code that simplifies controls of your 
 ## 0.2.0
 
 fix: wrong files added in .pubignore
+
+## 0.3.0
+
+fix: modules using wrong context
+change: make use of init function and PageContainer easier, rename PageContainer widget to PageController
