@@ -10,3 +10,7 @@ fix: wrong files added in .pubignore
 
 fix: modules using wrong context
 change: make use of init function and PageContainer easier, rename PageContainer widget to PageController
+
+## 0.4.0
+
+fix: previous update did not include changes to state module

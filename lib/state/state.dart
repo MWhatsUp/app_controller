@@ -8,14 +8,11 @@ late ThemeData theme;
 bool isContextLoaded = false;
 
 void init({
-  required BuildContext context,
   required void Function(void Function() fn) refreshFn,
   required Widget startPage,
 }) {
-  appContext = context;
   appRefreshFn = refreshFn;
   currentPage = startPage;
-  theme = Theme.of(context);
 }
 
 
@@ -32,25 +29,20 @@ class BlankPage extends StatelessWidget {
       );
 }
 
-class PageContainer extends StatelessWidget {
-  const PageContainer({
+class PageController extends StatelessWidget {
+  const PageController({
     super.key,
-    required this.appBuildContext,
-    required this.page,
   });
 
-  final BuildContext appBuildContext;
-  final Widget page;
-
   @override
-  Widget build(BuildContext containerContext) {
-    appContext = appBuildContext;
-    theme = Theme.of(appBuildContext);
+  Widget build(BuildContext context) {
+    appContext = context;
+    theme = Theme.of(context);
     isContextLoaded = true;
 
     return Container(
         key: ValueKey(keyValue),
-        child: page,
+        child: currentPage,
     );
   }
 }
