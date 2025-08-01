@@ -14,3 +14,8 @@ change: make use of init function and PageContainer easier, rename PageContainer
 ## 0.4.0
 
 fix: previous update did not include changes to state module
+
+## 0.5.0
+
+change: structure of modules
+add: two more functions to nav module "canPop" and "canNotPop"
