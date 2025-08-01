@@ -28,7 +28,7 @@ MaterialApp(
 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:app_controller/state/state.dart' as app_controller;
+import 'package:app_controller/app_controller.dart' as app_controller;
 
 import 'page_home.dart';
 
@@ -75,7 +75,7 @@ class MyAppState extends State<MyApp> {
 Simplify an app control such as Navigator.push by using nav.openSubPage instead: 
 ```dart
 import 'package:flutter/material.dart';
-import 'package:app_controller/nav.dart' as nav;
+import 'package:app_controller/app_controller_nav.dart' as nav;
 
 class HomePage extends StatefulWidget {
   const HomePage({
